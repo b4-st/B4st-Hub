@@ -182,7 +182,7 @@ DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
 -- Scripts
 
-local function LVTXMI_fake_script() -- MainGui.MainScript 
+local function TPVZV_fake_script() -- MainGui.MainScript 
 	local script = Instance.new('LocalScript', MainGui)
 
 	-- // [ Services ] \\ --
@@ -204,6 +204,7 @@ local function LVTXMI_fake_script() -- MainGui.MainScript
 		MainGui.Parent = game:GetService("CoreGui")
 	end
 	
+	local Unloaded = false
 	local CurrentTab = TabsHolder.Player
 	local Sounds = {}
 	local Toggles = {}
@@ -320,6 +321,15 @@ local function LVTXMI_fake_script() -- MainGui.MainScript
 	end
 	
 	-- // [ Main Code ] \\ --
+	if not _G.UnloadB4stHub then
+		_G.UnloadB4stHub = function()
+			MainGui:Destroy()
+			Unloaded = true
+		end
+	else
+		_G.UnloadB4stHub()
+	end
+	
 	task.spawn(function()
 		CreateSound("Click", 6895079853, 1)
 		AddStroke(MainFrame, Color3.fromRGB(35, 35, 35), 3)
@@ -361,6 +371,10 @@ local function LVTXMI_fake_script() -- MainGui.MainScript
 	end)
 	
 	RunService.Heartbeat:Connect(function()
+		if Unloaded == true then
+			return
+		end
+		
 		task.spawn(function()
 			if Toggles.CFrameWalk == true then
 				if Character:FindFirstChild("HumanoidRootPart") then
@@ -370,8 +384,8 @@ local function LVTXMI_fake_script() -- MainGui.MainScript
 		end)
 	end)
 end
-coroutine.wrap(LVTXMI_fake_script)()
-local function BKZL_fake_script() -- MainGui.DragScript 
+coroutine.wrap(TPVZV_fake_script)()
+local function UGLD_fake_script() -- MainGui.DragScript 
 	local script = Instance.new('LocalScript', MainGui)
 
 	-- // [ Services ] \\ --
@@ -417,4 +431,4 @@ local function BKZL_fake_script() -- MainGui.DragScript
 	
 	RunService.Heartbeat:Connect(Update)
 end
-coroutine.wrap(BKZL_fake_script)()
+coroutine.wrap(UGLD_fake_script)()
