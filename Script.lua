@@ -2,28 +2,11 @@
 local MainGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local TabScroll = Instance.new("ScrollingFrame")
-local Player = Instance.new("Frame")
-local TextButton = Instance.new("TextButton")
-local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
 local UIListLayout = Instance.new("UIListLayout")
 local TitleText = Instance.new("TextLabel")
 local UITextSizeConstraint_2 = Instance.new("UITextSizeConstraint")
 local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
 local TabsHolder = Instance.new("Frame")
-local Player_2 = Instance.new("ScrollingFrame")
-local UIListLayout_2 = Instance.new("UIListLayout")
-local CFrameSpeed = Instance.new("Frame")
-local TextBox = Instance.new("TextBox")
-local UITextSizeConstraint_3 = Instance.new("UITextSizeConstraint")
-local CFrameWalk = Instance.new("Frame")
-local TextButton_2 = Instance.new("TextButton")
-local UITextSizeConstraint_4 = Instance.new("UITextSizeConstraint")
-local FlySpeed = Instance.new("Frame")
-local TextBox_2 = Instance.new("TextBox")
-local UITextSizeConstraint_5 = Instance.new("UITextSizeConstraint")
-local Fly = Instance.new("Frame")
-local TextButton_3 = Instance.new("TextButton")
-local UITextSizeConstraint_6 = Instance.new("UITextSizeConstraint")
 local DragFrame = Instance.new("Frame")
 
 MainGui.Name = "MainGui"
@@ -50,29 +33,6 @@ TabScroll.Position = UDim2.new(0, 0, 0.128671825, 0)
 TabScroll.Size = UDim2.new(1, 0, 0.106558792, 0)
 TabScroll.CanvasSize = UDim2.new(1, 0, 0, 0)
 TabScroll.ScrollBarThickness = 0
-
-Player.Name = "Player"
-Player.Parent = TabScroll
-Player.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
-Player.BorderColor3 = Color3.new(0, 0, 0)
-Player.BorderSizePixel = 0
-Player.Size = UDim2.new(0.25, 0, 1, 0)
-
-TextButton.Parent = Player
-TextButton.BackgroundColor3 = Color3.new(1, 1, 1)
-TextButton.BackgroundTransparency = 1
-TextButton.BorderColor3 = Color3.new(0, 0, 0)
-TextButton.BorderSizePixel = 0
-TextButton.Size = UDim2.new(1, 0, 1, 0)
-TextButton.Font = Enum.Font.SourceSansSemibold
-TextButton.Text = "Player"
-TextButton.TextColor3 = Color3.new(1, 1, 1)
-TextButton.TextScaled = true
-TextButton.TextSize = 22
-TextButton.TextWrapped = true
-
-UITextSizeConstraint.Parent = TextButton
-UITextSizeConstraint.MaxTextSize = 22
 
 UIListLayout.Parent = TabScroll
 UIListLayout.FillDirection = Enum.FillDirection.Horizontal
@@ -111,117 +71,6 @@ TabsHolder.BorderSizePixel = 0
 TabsHolder.ClipsDescendants = true
 TabsHolder.Position = UDim2.new(0, 0, 0.263893068, 0)
 TabsHolder.Size = UDim2.new(1, 0, 0.734000027, 0)
-
-Player_2.Name = "Player"
-Player_2.Parent = TabsHolder
-Player_2.Active = true
-Player_2.BackgroundColor3 = Color3.new(1, 1, 1)
-Player_2.BackgroundTransparency = 1
-Player_2.BorderColor3 = Color3.new(0, 0, 0)
-Player_2.BorderSizePixel = 0
-Player_2.Size = UDim2.new(1, 0, 1, 0)
-Player_2.CanvasSize = UDim2.new(0, 0, 1, 0)
-Player_2.ScrollBarThickness = 0
-
-UIListLayout_2.Parent = Player_2
-UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout_2.Padding = UDim.new(0, 3)
-
-CFrameSpeed.Name = "CFrameSpeed"
-CFrameSpeed.Parent = Player_2
-CFrameSpeed.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
-CFrameSpeed.BorderColor3 = Color3.new(0, 0, 0)
-CFrameSpeed.BorderSizePixel = 0
-CFrameSpeed.Size = UDim2.new(1, 0, 0.125, 0)
-
-TextBox.Parent = CFrameSpeed
-TextBox.BackgroundColor3 = Color3.new(1, 1, 1)
-TextBox.BackgroundTransparency = 1
-TextBox.BorderColor3 = Color3.new(0, 0, 0)
-TextBox.BorderSizePixel = 0
-TextBox.Size = UDim2.new(1, 0, 1, 0)
-TextBox.Font = Enum.Font.SourceSansSemibold
-TextBox.PlaceholderColor3 = Color3.new(0.698039, 0.698039, 0.698039)
-TextBox.PlaceholderText = "Speed Amount: 0"
-TextBox.Text = ""
-TextBox.TextColor3 = Color3.new(1, 1, 1)
-TextBox.TextScaled = true
-TextBox.TextSize = 20
-TextBox.TextWrapped = true
-
-UITextSizeConstraint_3.Parent = TextBox
-UITextSizeConstraint_3.MaxTextSize = 20
-
-CFrameWalk.Name = "CFrameWalk"
-CFrameWalk.Parent = Player_2
-CFrameWalk.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
-CFrameWalk.BorderColor3 = Color3.new(0, 0, 0)
-CFrameWalk.BorderSizePixel = 0
-CFrameWalk.Size = UDim2.new(1, 0, 0.125, 0)
-
-TextButton_2.Parent = CFrameWalk
-TextButton_2.BackgroundColor3 = Color3.new(1, 1, 1)
-TextButton_2.BackgroundTransparency = 1
-TextButton_2.BorderColor3 = Color3.new(0, 0, 0)
-TextButton_2.BorderSizePixel = 0
-TextButton_2.Size = UDim2.new(1, 0, 1, 0)
-TextButton_2.Font = Enum.Font.SourceSansSemibold
-TextButton_2.Text = "CFrame Walk"
-TextButton_2.TextColor3 = Color3.new(1, 1, 1)
-TextButton_2.TextScaled = true
-TextButton_2.TextSize = 20
-TextButton_2.TextWrapped = true
-
-UITextSizeConstraint_4.Parent = TextButton_2
-UITextSizeConstraint_4.MaxTextSize = 20
-
-FlySpeed.Name = "FlySpeed"
-FlySpeed.Parent = Player_2
-FlySpeed.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
-FlySpeed.BorderColor3 = Color3.new(0, 0, 0)
-FlySpeed.BorderSizePixel = 0
-FlySpeed.Size = UDim2.new(1, 0, 0.125, 0)
-
-TextBox_2.Parent = FlySpeed
-TextBox_2.BackgroundColor3 = Color3.new(1, 1, 1)
-TextBox_2.BackgroundTransparency = 1
-TextBox_2.BorderColor3 = Color3.new(0, 0, 0)
-TextBox_2.BorderSizePixel = 0
-TextBox_2.Size = UDim2.new(1, 0, 1, 0)
-TextBox_2.Font = Enum.Font.SourceSansSemibold
-TextBox_2.PlaceholderColor3 = Color3.new(0.698039, 0.698039, 0.698039)
-TextBox_2.PlaceholderText = "Fly Speed: 1"
-TextBox_2.Text = ""
-TextBox_2.TextColor3 = Color3.new(1, 1, 1)
-TextBox_2.TextScaled = true
-TextBox_2.TextSize = 20
-TextBox_2.TextWrapped = true
-
-UITextSizeConstraint_5.Parent = TextBox_2
-UITextSizeConstraint_5.MaxTextSize = 20
-
-Fly.Name = "Fly"
-Fly.Parent = Player_2
-Fly.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
-Fly.BorderColor3 = Color3.new(0, 0, 0)
-Fly.BorderSizePixel = 0
-Fly.Size = UDim2.new(1, 0, 0.125, 0)
-
-TextButton_3.Parent = Fly
-TextButton_3.BackgroundColor3 = Color3.new(1, 1, 1)
-TextButton_3.BackgroundTransparency = 1
-TextButton_3.BorderColor3 = Color3.new(0, 0, 0)
-TextButton_3.BorderSizePixel = 0
-TextButton_3.Size = UDim2.new(1, 0, 1, 0)
-TextButton_3.Font = Enum.Font.SourceSansSemibold
-TextButton_3.Text = "Fly"
-TextButton_3.TextColor3 = Color3.new(1, 1, 1)
-TextButton_3.TextScaled = true
-TextButton_3.TextSize = 20
-TextButton_3.TextWrapped = true
-
-UITextSizeConstraint_6.Parent = TextButton_3
-UITextSizeConstraint_6.MaxTextSize = 20
 
 DragFrame.Name = "DragFrame"
 DragFrame.Parent = MainFrame
@@ -516,11 +365,11 @@ for _,Tab in pairs(TabsHolder:GetChildren()) do
                 if Feature.Name == "CFrameWalk" then
                     SetupToggle(Feature.TextButton, "CFrameWalk")
                 elseif Feature.Name == "CFrameSpeed" then
-                    SetupInput(Feature.TextBox, "CframeSpeed", "Number", "Speed Amount: ", 0)
+                    SetupInput(Feature.TextBox, "CFrameSpeed", "Number", "Speed Amount: ")
                 elseif Feature.Name == "Fly" then
                     SetupToggle(Feature.TextButton, "Fly")
                 elseif Feature.Name == "FlySpeed" then
-                    SetupInput(Feature.TextBox, "FlySpeed", "Number", "Fly Speed: ", 1)
+                    SetupInput(Feature.TextBox, "FlySpeed", "Number", "Fly Speed: ")
                 end
             end
         end
@@ -564,12 +413,12 @@ RunService.Heartbeat:Connect(function()
     task.spawn(function()
         if Toggles.CFrameWalk == true and Toggles.Fly == false then
             if Character:FindFirstChild("HumanoidRootPart") then
-                Character.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame + Humanoid.MoveDirection * (Inputs["CFrameSpeed"] * 0.05)
+                Character.HumanoidRootPart.CFrame += (Humanoid.MoveDirection * (Inputs["CFrameSpeed"] * 0.01))
             end
         end
         if Toggles.Fly == true then
             if Character:FindFirstChild("HumanoidRootPart") then
-                Character.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame + (CurrentCamera.CFrame * CFrame.new((CFrame.new(CurrentCamera.CFrame.Position, CurrentCamera.CFrame.Position + Vector3.new(CurrentCamera.CFrame.LookVector.X, 0, CurrentCamera.CFrame.LookVector.Z)):VectorToObjectSpace(Humanoid.MoveDirection * (Inputs["FlySpeed"] * 0.025))))).Position - CurrentCamera.CFrame.Position
+                Character.HumanoidRootPart.CFrame += ((CurrentCamera.CFrame * CFrame.new((CFrame.new(CurrentCamera.CFrame.Position, CurrentCamera.CFrame.Position + Vector3.new(CurrentCamera.CFrame.LookVector.X, 0, CurrentCamera.CFrame.LookVector.Z)):VectorToObjectSpace(Humanoid.MoveDirection * (Inputs["FlySpeed"] * 0.05))))).Position - CurrentCamera.CFrame.Position)
                 Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0.9, 0)
                 
                 local Enums = Enum.HumanoidStateType:GetEnumItems()
