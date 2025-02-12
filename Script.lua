@@ -182,7 +182,7 @@ DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
 -- Scripts
 
-local function GQTQJUU_fake_script() -- MainGui.MainScript 
+local function XKESDUI_fake_script() -- MainGui.MainScript 
 	local script = Instance.new('LocalScript', MainGui)
 
 	-- // [ Services ] \\ --
@@ -324,15 +324,6 @@ local function GQTQJUU_fake_script() -- MainGui.MainScript
 	end
 	
 	-- // [ Main Code ] \\ --
-	if not _G.UnloadB4stHub then
-		_G.UnloadB4stHub = function()
-			MainGui:Destroy()
-			Unloaded = true
-		end
-	else
-		_G.UnloadB4stHub()
-	end
-	
 	task.spawn(function()
 		CreateSound("Click", 6895079853, 1)
 		AddStroke(MainFrame, Color3.fromRGB(35, 35, 35), 3)
@@ -412,4 +403,4 @@ local function GQTQJUU_fake_script() -- MainGui.MainScript
 		end)
 	end)
 end
-coroutine.wrap(GQTQJUU_fake_script)()
+coroutine.wrap(XKESDUI_fake_script)()
