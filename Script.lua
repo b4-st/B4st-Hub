@@ -237,8 +237,7 @@ DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
 -- Scripts
 
-local function YUXZ_fake_script() -- MainGui.MainScript 
-	local script = Instance.new('LocalScript', MainGui)
+local script = Instance.new('LocalScript', MainGui)
 
 	-- // [ Services ] \\ --
 	local UserInputService = game:GetService("UserInputService")
@@ -473,5 +472,3 @@ local function YUXZ_fake_script() -- MainGui.MainScript
 			end
 		end)
 	end)
-end
-coroutine.wrap(YUXZ_fake_script)()
