@@ -19,6 +19,12 @@ local UITextSizeConstraint_3 = Instance.new("UITextSizeConstraint")
 local CFrameWalk = Instance.new("Frame")
 local TextButton_2 = Instance.new("TextButton")
 local UITextSizeConstraint_4 = Instance.new("UITextSizeConstraint")
+local FlySpeed = Instance.new("Frame")
+local TextBox_2 = Instance.new("TextBox")
+local UITextSizeConstraint_5 = Instance.new("UITextSizeConstraint")
+local Fly = Instance.new("Frame")
+local TextButton_3 = Instance.new("TextButton")
+local UITextSizeConstraint_6 = Instance.new("UITextSizeConstraint")
 local DragFrame = Instance.new("Frame")
 
 -- Properties
@@ -30,10 +36,11 @@ MainGui.ResetOnSpawn = false
 
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = MainGui
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 MainFrame.BackgroundColor3 = Color3.new(0.196078, 0.196078, 0.196078)
 MainFrame.BorderColor3 = Color3.new(0, 0, 0)
 MainFrame.BorderSizePixel = 0
-MainFrame.Position = UDim2.new(0.38935256, 0, 0.239949748, 0)
+MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 MainFrame.Size = UDim2.new(0.220026344, 0, 0.394472361, 0)
 
 TabScroll.Name = "TabScroll"
@@ -172,6 +179,54 @@ TextButton_2.TextWrapped = true
 UITextSizeConstraint_4.Parent = TextButton_2
 UITextSizeConstraint_4.MaxTextSize = 20
 
+FlySpeed.Name = "FlySpeed"
+FlySpeed.Parent = Player_2
+FlySpeed.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
+FlySpeed.BorderColor3 = Color3.new(0, 0, 0)
+FlySpeed.BorderSizePixel = 0
+FlySpeed.Size = UDim2.new(1, 0, 0.125, 0)
+
+TextBox_2.Parent = FlySpeed
+TextBox_2.BackgroundColor3 = Color3.new(1, 1, 1)
+TextBox_2.BackgroundTransparency = 1
+TextBox_2.BorderColor3 = Color3.new(0, 0, 0)
+TextBox_2.BorderSizePixel = 0
+TextBox_2.Size = UDim2.new(1, 0, 1, 0)
+TextBox_2.Font = Enum.Font.SourceSansSemibold
+TextBox_2.PlaceholderColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+TextBox_2.PlaceholderText = "Fly Speed: 1"
+TextBox_2.Text = ""
+TextBox_2.TextColor3 = Color3.new(1, 1, 1)
+TextBox_2.TextScaled = true
+TextBox_2.TextSize = 20
+TextBox_2.TextWrapped = true
+
+UITextSizeConstraint_5.Parent = TextBox_2
+UITextSizeConstraint_5.MaxTextSize = 20
+
+Fly.Name = "Fly"
+Fly.Parent = Player_2
+Fly.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
+Fly.BorderColor3 = Color3.new(0, 0, 0)
+Fly.BorderSizePixel = 0
+Fly.Size = UDim2.new(1, 0, 0.125, 0)
+
+TextButton_3.Parent = Fly
+TextButton_3.BackgroundColor3 = Color3.new(1, 1, 1)
+TextButton_3.BackgroundTransparency = 1
+TextButton_3.BorderColor3 = Color3.new(0, 0, 0)
+TextButton_3.BorderSizePixel = 0
+TextButton_3.Size = UDim2.new(1, 0, 1, 0)
+TextButton_3.Font = Enum.Font.SourceSansSemibold
+TextButton_3.Text = "Fly"
+TextButton_3.TextColor3 = Color3.new(1, 1, 1)
+TextButton_3.TextScaled = true
+TextButton_3.TextSize = 20
+TextButton_3.TextWrapped = true
+
+UITextSizeConstraint_6.Parent = TextButton_3
+UITextSizeConstraint_6.MaxTextSize = 20
+
 DragFrame.Name = "DragFrame"
 DragFrame.Parent = MainFrame
 DragFrame.BackgroundColor3 = Color3.new(1, 1, 1)
@@ -182,7 +237,7 @@ DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
 -- Scripts
 
-local function XKESDUI_fake_script() -- MainGui.MainScript 
+local function FTHWOI_fake_script() -- MainGui.MainScript 
 	local script = Instance.new('LocalScript', MainGui)
 
 	-- // [ Services ] \\ --
@@ -353,7 +408,11 @@ local function XKESDUI_fake_script() -- MainGui.MainScript
 					if Feature.Name == "CFrameWalk" then
 						SetupToggle(Feature.TextButton, "CFrameWalk")
 					elseif Feature.Name == "CFrameSpeed" then
-						SetupInput(Feature.TextBox, "CframeSpeed", "Number", "Speed Amount: ")
+						SetupInput(Feature.TextBox, "CframeSpeed", "Number", "Speed Amount: ", 0)
+					elseif Feature.Name == "Fly" then
+						SetupToggle(Feature.TextButton, "Fly")
+					elseif Feature.Name == "FlySpeed" then
+						SetupInput(Feature.TextBox, "FlySpeed", "Number", "Fly Speed: ", 1)
 					end
 				end
 			end
@@ -389,7 +448,7 @@ local function XKESDUI_fake_script() -- MainGui.MainScript
 				local ViewportSize = CurrentCamera.ViewportSize
 				local MousePos = UserInputService:GetMouseLocation()
 				game.TweenService:Create(MainFrame, TweenInfo.new(0.05), {
-					Position = UDim2.fromOffset((Offset.X - (OldMousePos.X - MousePos.X)), (Offset.Y - (OldMousePos.Y - MousePos.Y)))
+					Position = UDim2.fromOffset((Offset.X - (OldMousePos.X - MousePos.X)) + MainFrame.AbsoluteSize.X/2, (Offset.Y - (OldMousePos.Y - MousePos.Y)) + MainFrame.AbsoluteSize.Y/2)
 				}):Play()
 			end
 		end)
@@ -397,10 +456,22 @@ local function XKESDUI_fake_script() -- MainGui.MainScript
 		task.spawn(function()
 			if Toggles.CFrameWalk == true then
 				if Character:FindFirstChild("HumanoidRootPart") then
-					Character.HumanoidRootPart.CFrame += Humanoid.MoveDirection * (Inputs["CframeSpeed"] * 0.01)
+					Character.HumanoidRootPart.CFrame += Humanoid.MoveDirection * (Inputs["FlySpeed"] * 0.05)
+				end
+			end
+			if Toggles.Fly == true then
+				if Character:FindFirstChild("HumanoidRootPart") then
+					Character.HumanoidRootPart.CFrame += (CurrentCamera.CFrame * CFrame.new((CFrame.new(CurrentCamera.CFrame.Position, CurrentCamera.CFrame.Position + Vector3.new(CurrentCamera.CFrame.LookVector.X, 0, CurrentCamera.CFrame.LookVector.Z)):VectorToObjectSpace(Humanoid.MoveDirection * (Inputs["FlySpeed"] * 0.025))))).Position - CurrentCamera.CFrame.Position
+					Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0.9, 0)
+					
+					local Enums = Enum.HumanoidStateType:GetEnumItems()
+					table.remove(Enums, table.find(Enums, Enum.HumanoidStateType.None))
+					for i,v in pairs(Enums) do
+						Humanoid:SetStateEnabled(v, true)
+					end
 				end
 			end
 		end)
 	end)
 end
-coroutine.wrap(XKESDUI_fake_script)()
+coroutine.wrap(FTHWOI_fake_script)()
