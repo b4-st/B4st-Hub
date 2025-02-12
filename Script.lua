@@ -238,9 +238,8 @@ DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
 -- Scripts
 
-local function WAKCZ_fake_script() -- MainGui.MainScript 
+local function YBKZTQ_fake_script() -- MainGui.MainScript 
 	local script = Instance.new('LocalScript', MainGui)
-	script.Name = "MainScript"
 
 	-- // [ Services ] \\ --
 	local UserInputService = game:GetService("UserInputService")
@@ -458,12 +457,12 @@ local function WAKCZ_fake_script() -- MainGui.MainScript
 		task.spawn(function()
 			if Toggles.CFrameWalk == true and Toggles.Fly == false then
 				if Character:FindFirstChild("HumanoidRootPart") then
-					Character.HumanoidRootPart.CFrame += Humanoid.MoveDirection * (Inputs["CFrameSpeed"] * 0.05)
+					Character.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame + Humanoid.MoveDirection * (Inputs["CFrameSpeed"] * 0.05)
 				end
 			end
 			if Toggles.Fly == true then
 				if Character:FindFirstChild("HumanoidRootPart") then
-					Character.HumanoidRootPart.CFrame += (CurrentCamera.CFrame * CFrame.new((CFrame.new(CurrentCamera.CFrame.Position, CurrentCamera.CFrame.Position + Vector3.new(CurrentCamera.CFrame.LookVector.X, 0, CurrentCamera.CFrame.LookVector.Z)):VectorToObjectSpace(Humanoid.MoveDirection * (Inputs["FlySpeed"] * 0.025))))).Position - CurrentCamera.CFrame.Position
+					Character.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame + (CurrentCamera.CFrame * CFrame.new((CFrame.new(CurrentCamera.CFrame.Position, CurrentCamera.CFrame.Position + Vector3.new(CurrentCamera.CFrame.LookVector.X, 0, CurrentCamera.CFrame.LookVector.Z)):VectorToObjectSpace(Humanoid.MoveDirection * (Inputs["FlySpeed"] * 0.025))))).Position - CurrentCamera.CFrame.Position
 					Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0.9, 0)
 					
 					local Enums = Enum.HumanoidStateType:GetEnumItems()
@@ -476,4 +475,4 @@ local function WAKCZ_fake_script() -- MainGui.MainScript
 		end)
 	end)
 end
-coroutine.wrap(WAKCZ_fake_script)()
+coroutine.wrap(YBKZTQ_fake_script)()
