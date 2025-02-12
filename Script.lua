@@ -240,6 +240,7 @@ DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
 local function WAKCZ_fake_script() -- MainGui.MainScript 
 	local script = Instance.new('LocalScript', MainGui)
+	script.Name = "MainScript"
 
 	-- // [ Services ] \\ --
 	local UserInputService = game:GetService("UserInputService")
