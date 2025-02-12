@@ -182,33 +182,36 @@ DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
 -- Scripts
 
-local function TPVZV_fake_script() -- MainGui.MainScript 
+local function GQTQJUU_fake_script() -- MainGui.MainScript 
 	local script = Instance.new('LocalScript', MainGui)
 
 	-- // [ Services ] \\ --
+	local UserInputService = game:GetService("UserInputService")
 	local TweenService = game:GetService("TweenService")
 	local RunService = game:GetService("RunService")
 	local Players = game:GetService("Players")
 	
 	-- // [ Variables ] \\ --
+	local CurrentCamera = game:GetService("Workspace").CurrentCamera
 	local LocalPlayer = Players.LocalPlayer
 	local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 	local Humanoid = Character:WaitForChild("Humanoid")
 	
 	local MainGui = script.Parent
 	local MainFrame = MainGui.MainFrame
+	local DragFrame = MainFrame.DragFrame
 	local TabScroll = MainFrame.TabScroll
 	local TabsHolder = MainFrame.TabsHolder
-	
-	if not RunService:IsStudio() then
-		MainGui.Parent = game:GetService("CoreGui")
-	end
 	
 	local Unloaded = false
 	local CurrentTab = TabsHolder.Player
 	local Sounds = {}
 	local Toggles = {}
 	local Inputs = {}
+	
+	local Dragging = false
+	local OldMousePos = UserInputService:GetMouseLocation()
+	local Offset = MainFrame.AbsolutePosition
 	
 	-- // [ Functions ] \\ --
 	function CreateSound(Name, SoundId, Volume)
@@ -337,6 +340,7 @@ local function TPVZV_fake_script() -- MainGui.MainScript
 		AddStroke(TabScroll, Color3.fromRGB(35, 35, 35), 3)
 	end)
 	
+	
 	for _,TabButton in pairs(TabScroll:GetChildren()) do
 		if TabButton:IsA("Frame") then
 			if TabScroll:FindFirstChild(TabButton.Name) then
@@ -365,56 +369,6 @@ local function TPVZV_fake_script() -- MainGui.MainScript
 		end
 	end
 	
-	LocalPlayer.CharacterAdded:Connect(function()
-		Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-		Humanoid = Character:WaitForChild("Humanoid")
-	end)
-	
-	RunService.Heartbeat:Connect(function()
-		if Unloaded == true then
-			return
-		end
-		
-		task.spawn(function()
-			if Toggles.CFrameWalk == true then
-				if Character:FindFirstChild("HumanoidRootPart") then
-					Character.HumanoidRootPart.CFrame += Humanoid.MoveDirection * (Inputs["CframeSpeed"] * 0.01)
-				end
-			end
-		end)
-	end)
-end
-coroutine.wrap(TPVZV_fake_script)()
-local function UGLD_fake_script() -- MainGui.DragScript 
-	local script = Instance.new('LocalScript', MainGui)
-
-	-- // [ Services ] \\ --
-	local UserInputService = game:GetService("UserInputService")
-	local TweenService = game:GetService("TweenService")
-	local RunService = game:GetService("RunService")
-	
-	-- // [ Variables ] \\ --
-	local MainGui = script.Parent
-	local MainFrame = MainGui.MainFrame
-	local DragFrame = MainFrame.DragFrame
-	
-	local CurrentCamera = game:GetService("Workspace").CurrentCamera
-	local Dragging = false
-	local OldMousePos = UserInputService:GetMouseLocation()
-	local Offset = MainFrame.AbsolutePosition
-	
-	-- // [ Functions ] \\ --
-	function Update(DeltaTime)
-		if Dragging then
-			local ViewportSize = CurrentCamera.ViewportSize
-			local MousePos = UserInputService:GetMouseLocation()
-			game.TweenService:Create(MainFrame, TweenInfo.new(0.05), {
-				Position = UDim2.fromOffset((Offset.X - (OldMousePos.X - MousePos.X)), (Offset.Y - (OldMousePos.Y - MousePos.Y)))
-			}):Play()
-		end
-	end
-	
-	-- // [ Main Code ] \\ --
 	DragFrame.InputBegan:Connect(function(Input)
 		if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
 			Dragging = true
@@ -429,6 +383,33 @@ local function UGLD_fake_script() -- MainGui.DragScript
 		end
 	end)
 	
-	RunService.Heartbeat:Connect(Update)
+	LocalPlayer.CharacterAdded:Connect(function()
+		Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+		Humanoid = Character:WaitForChild("Humanoid")
+	end)
+	
+	RunService.Heartbeat:Connect(function()
+		if Unloaded == true then
+			return
+		end
+		
+		task.spawn(function()
+			if Dragging then
+				local ViewportSize = CurrentCamera.ViewportSize
+				local MousePos = UserInputService:GetMouseLocation()
+				game.TweenService:Create(MainFrame, TweenInfo.new(0.05), {
+					Position = UDim2.fromOffset((Offset.X - (OldMousePos.X - MousePos.X)), (Offset.Y - (OldMousePos.Y - MousePos.Y)))
+				}):Play()
+			end
+		end)
+		
+		task.spawn(function()
+			if Toggles.CFrameWalk == true then
+				if Character:FindFirstChild("HumanoidRootPart") then
+					Character.HumanoidRootPart.CFrame += Humanoid.MoveDirection * (Inputs["CframeSpeed"] * 0.01)
+				end
+			end
+		end)
+	end)
 end
-coroutine.wrap(UGLD_fake_script)()
+coroutine.wrap(GQTQJUU_fake_script)()
