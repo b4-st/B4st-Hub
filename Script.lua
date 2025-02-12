@@ -238,7 +238,7 @@ DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
 -- Scripts
 
-local function CCOXTU_fake_script() -- MainGui.MainScript 
+local function WAKCZ_fake_script() -- MainGui.MainScript 
 	local script = Instance.new('LocalScript', MainGui)
 
 	-- // [ Services ] \\ --
@@ -270,7 +270,7 @@ local function CCOXTU_fake_script() -- MainGui.MainScript
 	local Offset = MainFrame.AbsolutePosition
 	
 	-- // [ Functions ] \\ --
-	local function CreateSound(Name, SoundId, Volume)
+	function CreateSound(Name, SoundId, Volume)
 		local Sound = Instance.new("Sound")
 		Sound.SoundId = "rbxassetid://".. tostring(SoundId)
 		Sound.Volume = Volume
@@ -278,18 +278,18 @@ local function CCOXTU_fake_script() -- MainGui.MainScript
 		Sounds[Name] = Sound
 	end
 	
-	local function PlaySound(Name)
+	function PlaySound(Name)
 		Sounds[Name]:Play()
 	end
 	
-	local function AddStroke(Item, Color, Thickness)
+	function AddStroke(Item, Color, Thickness)
 		local Stroke = Instance.new("UIStroke")
 		Stroke.Color = Color
 		Stroke.Thickness = Thickness
 		Stroke.Parent = Item
 	end
 	
-	local function SetupTab(Button, Tab)
+	function SetupTab(Button, Tab)
 		AddStroke(Button.Parent, Color3.fromRGB(35, 35, 35), 3)
 		Button.MouseButton1Click:Connect(function()
 			PlaySound("Click")
@@ -319,7 +319,7 @@ local function CCOXTU_fake_script() -- MainGui.MainScript
 		end)
 	end
 	
-	local function SetupButton(Button, Callback)
+	function SetupButton(Button, Callback)
 		AddStroke(Button.Parent, Color3.fromRGB(35, 35, 35), 3)
 		Button.MouseButton1Click:Connect(function()
 			PlaySound("Click")
@@ -333,7 +333,7 @@ local function CCOXTU_fake_script() -- MainGui.MainScript
 		end)
 	end
 	
-	local function SetupToggle(Button, Name, StartToggle)
+	function SetupToggle(Button, Name, StartToggle)
 		AddStroke(Button.Parent, Color3.fromRGB(35, 35, 35), 3)
 		Toggles[Name] = StartToggle or false
 		if Toggles[Name] == true then
@@ -358,7 +358,7 @@ local function CCOXTU_fake_script() -- MainGui.MainScript
 		end)
 	end
 	
-	local function SetupInput(Input, Name, Type, Text, StartValue)
+	function SetupInput(Input, Name, Type, Text, StartValue)
 		AddStroke(Input.Parent, Color3.fromRGB(35, 35, 35), 3)
 		if StartValue ~= nil then
 			Input.PlaceholderText = Text.. tostring(StartValue)
@@ -475,4 +475,4 @@ local function CCOXTU_fake_script() -- MainGui.MainScript
 		end)
 	end)
 end
-coroutine.wrap(CCOXTU_fake_script)()
+coroutine.wrap(WAKCZ_fake_script)()
