@@ -237,7 +237,7 @@ DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
 -- Scripts
 
-local function WLIHVFY_fake_script() -- MainGui.MainScript 
+local function YUXZ_fake_script() -- MainGui.MainScript 
 	local script = Instance.new('LocalScript', MainGui)
 
 	-- // [ Services ] \\ --
@@ -474,4 +474,4 @@ local function WLIHVFY_fake_script() -- MainGui.MainScript
 		end)
 	end)
 end
-coroutine.wrap(WLIHVFY_fake_script)()
+coroutine.wrap(YUXZ_fake_script)()
