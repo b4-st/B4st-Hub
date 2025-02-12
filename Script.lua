@@ -237,7 +237,7 @@ DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
 -- Scripts
 
-local function FTHWOI_fake_script() -- MainGui.MainScript 
+local function CTQBIIY_fake_script() -- MainGui.MainScript 
 	local script = Instance.new('LocalScript', MainGui)
 
 	-- // [ Services ] \\ --
@@ -269,7 +269,7 @@ local function FTHWOI_fake_script() -- MainGui.MainScript
 	local Offset = MainFrame.AbsolutePosition
 	
 	-- // [ Functions ] \\ --
-	function CreateSound(Name, SoundId, Volume)
+	local function CreateSound(Name, SoundId, Volume)
 		local Sound = Instance.new("Sound")
 		Sound.SoundId = "rbxassetid://".. tostring(SoundId)
 		Sound.Volume = Volume
@@ -277,18 +277,18 @@ local function FTHWOI_fake_script() -- MainGui.MainScript
 		Sounds[Name] = Sound
 	end
 	
-	function PlaySound(Name)
+	local function PlaySound(Name)
 		Sounds[Name]:Play()
 	end
 	
-	function AddStroke(Item, Color, Thickness)
+	local function AddStroke(Item, Color, Thickness)
 		local Stroke = Instance.new("UIStroke")
 		Stroke.Color = Color
 		Stroke.Thickness = Thickness
 		Stroke.Parent = Item
 	end
 	
-	function SetupTab(Button, Tab)
+	local function SetupTab(Button, Tab)
 		AddStroke(Button.Parent, Color3.fromRGB(35, 35, 35), 3)
 		Button.MouseButton1Click:Connect(function()
 			PlaySound("Click")
@@ -318,7 +318,7 @@ local function FTHWOI_fake_script() -- MainGui.MainScript
 		end)
 	end
 	
-	function SetupButton(Button, Callback)
+	local function SetupButton(Button, Callback)
 		AddStroke(Button.Parent, Color3.fromRGB(35, 35, 35), 3)
 		Button.MouseButton1Click:Connect(function()
 			PlaySound("Click")
@@ -332,7 +332,7 @@ local function FTHWOI_fake_script() -- MainGui.MainScript
 		end)
 	end
 	
-	function SetupToggle(Button, Name, StartToggle)
+	local function SetupToggle(Button, Name, StartToggle)
 		AddStroke(Button.Parent, Color3.fromRGB(35, 35, 35), 3)
 		Toggles[Name] = StartToggle or false
 		if Toggles[Name] == true then
@@ -357,7 +357,7 @@ local function FTHWOI_fake_script() -- MainGui.MainScript
 		end)
 	end
 	
-	function SetupInput(Input, Name, Type, Text, StartValue)
+	local function SetupInput(Input, Name, Type, Text, StartValue)
 		AddStroke(Input.Parent, Color3.fromRGB(35, 35, 35), 3)
 		if StartValue ~= nil then
 			Input.PlaceholderText = Text.. tostring(StartValue)
@@ -474,4 +474,4 @@ local function FTHWOI_fake_script() -- MainGui.MainScript
 		end)
 	end)
 end
-coroutine.wrap(FTHWOI_fake_script)()
+coroutine.wrap(CTQBIIY_fake_script)()
