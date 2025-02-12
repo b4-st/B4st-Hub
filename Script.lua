@@ -1,5 +1,4 @@
--- Instances
-
+-- // [ Menu ] \\ --
 local MainGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local TabScroll = Instance.new("ScrollingFrame")
@@ -27,10 +26,8 @@ local TextButton_3 = Instance.new("TextButton")
 local UITextSizeConstraint_6 = Instance.new("UITextSizeConstraint")
 local DragFrame = Instance.new("Frame")
 
--- Properties
-
 MainGui.Name = "MainGui"
-MainGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+MainGui.Parent = game:GetService("CoreGui")
 MainGui.Enabled = false
 MainGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 MainGui.ResetOnSpawn = false
@@ -236,243 +233,356 @@ DragFrame.BorderColor3 = Color3.new(0, 0, 0)
 DragFrame.BorderSizePixel = 0
 DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
--- Scripts
+local script = Instance.new("LocalScript")
+script.Parent = MainGui
 
-local function YBKZTQ_fake_script() -- MainGui.MainScript 
-	local script = Instance.new('LocalScript', MainGui)
+function CreateTab(Name)
+    local ScrollTab = Instance.new("Frame")
+    local ScrollTabButton = Instance.new("TextButton")
+    local ScrollTextSize = Instance.new("UITextSizeConstraint")
+    local Tab = Instance.new("Frame")
+    local TabListLayout = Instance.new("UIListLayout")
 
-	-- // [ Services ] \\ --
-	local UserInputService = game:GetService("UserInputService")
-	local TweenService = game:GetService("TweenService")
-	local RunService = game:GetService("RunService")
-	local Players = game:GetService("Players")
-	
-	-- // [ Variables ] \\ --
-	local CurrentCamera = game:GetService("Workspace").CurrentCamera
-	local LocalPlayer = Players.LocalPlayer
-	local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-	local Humanoid = Character:WaitForChild("Humanoid")
-	
-	local MainGui = script.Parent
-	local MainFrame = MainGui.MainFrame
-	local DragFrame = MainFrame.DragFrame
-	local TabScroll = MainFrame.TabScroll
-	local TabsHolder = MainFrame.TabsHolder
-	
-	local Unloaded = false
-	local CurrentTab = TabsHolder.Player
-	local Sounds = {}
-	local Toggles = {}
-	local Inputs = {}
-	
-	local Dragging = false
-	local OldMousePos = UserInputService:GetMouseLocation()
-	local Offset = MainFrame.AbsolutePosition
-	
-	-- // [ Functions ] \\ --
-	function CreateSound(Name, SoundId, Volume)
-		local Sound = Instance.new("Sound")
-		Sound.SoundId = "rbxassetid://".. tostring(SoundId)
-		Sound.Volume = Volume
-		Sound.Parent = game:GetService("SoundService")
-		Sounds[Name] = Sound
-	end
-	
-	function PlaySound(Name)
-		Sounds[Name]:Play()
-	end
-	
-	function AddStroke(Item, Color, Thickness)
-		local Stroke = Instance.new("UIStroke")
-		Stroke.Color = Color
-		Stroke.Thickness = Thickness
-		Stroke.Parent = Item
-	end
-	
-	function SetupTab(Button, Tab)
-		AddStroke(Button.Parent, Color3.fromRGB(35, 35, 35), 3)
-		Button.MouseButton1Click:Connect(function()
-			PlaySound("Click")
-			CurrentTab = Tab
-			for _,v in pairs(TabsHolder:GetChildren()) do
-				if v:IsA("ScrollingFrame") then
-					if v ~= CurrentTab then
-						v.Visible = false
-					else
-						v.Visible = true
-					end
-				end
-			end
-			for _,v in pairs(TabScroll:GetChildren()) do
-				if v:IsA("Frame") then
-					if v ~= Button.Parent then
-						TweenService:Create(Button.Parent, TweenInfo.new(0.5), {
-							BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-						}):Play()
-					else
-						TweenService:Create(Button.Parent, TweenInfo.new(0.5), {
-							BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-						}):Play()
-					end
-				end
-			end
-		end)
-	end
-	
-	function SetupButton(Button, Callback)
-		AddStroke(Button.Parent, Color3.fromRGB(35, 35, 35), 3)
-		Button.MouseButton1Click:Connect(function()
-			PlaySound("Click")
-			if Callback ~= nil then
-				Callback()
-			end
-			Button.Parent.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-			TweenService:Create(Button.Parent, TweenInfo.new(0.5), {
-				BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-			}):Play()
-		end)
-	end
-	
-	function SetupToggle(Button, Name, StartToggle)
-		AddStroke(Button.Parent, Color3.fromRGB(35, 35, 35), 3)
-		Toggles[Name] = StartToggle or false
-		if Toggles[Name] == true then
-			Button.Parent.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-		elseif Toggles[Name] == false then
-			Button.Parent.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-		end
-	
-		Button.MouseButton1Click:Connect(function()
-			PlaySound("Click")
-			if Toggles[Name] == false then
-				Toggles[Name] = true
-				TweenService:Create(Button.Parent, TweenInfo.new(0.25), {
-					BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-				}):Play()
-			elseif Toggles[Name] == true then
-				Toggles[Name] = false
-				TweenService:Create(Button.Parent, TweenInfo.new(0.25), {
-					BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-				}):Play()
-			end
-		end)
-	end
-	
-	function SetupInput(Input, Name, Type, Text, StartValue)
-		AddStroke(Input.Parent, Color3.fromRGB(35, 35, 35), 3)
-		if StartValue ~= nil then
-			Input.PlaceholderText = Text.. tostring(StartValue)
-			Inputs[Name] = StartValue
-		else
-			Input.PlaceholderText = Text.. "0"
-			Inputs[Name] = 0
-		end
-		
-		Input.FocusLost:Connect(function()
-			if Type == "Number" then
-				if tonumber(Input.Text) ~= nil then
-					Input.PlaceholderText = Text.. Input.Text
-					Inputs[Name] = tonumber(Input.Text)
-					Input.Text = ""
-				end
-			end
-		end)
-	end
-	
-	-- // [ Main Code ] \\ --
-	task.spawn(function()
-		CreateSound("Click", 6895079853, 1)
-		AddStroke(MainFrame, Color3.fromRGB(35, 35, 35), 3)
-		AddStroke(TabsHolder, Color3.fromRGB(35, 35, 35), 3)
-		AddStroke(TabScroll, Color3.fromRGB(35, 35, 35), 3)
-	end)
-	
-	
-	for _,TabButton in pairs(TabScroll:GetChildren()) do
-		if TabButton:IsA("Frame") then
-			if TabScroll:FindFirstChild(TabButton.Name) then
-				SetupTab(TabButton.TextButton, TabsHolder:FindFirstChild(TabButton.Name))
-			end
-		end
-	end
-	
-	for _,Tab in pairs(TabsHolder:GetChildren()) do
-		if Tab:IsA("ScrollingFrame") then
-			if Tab == CurrentTab then
-				local TabButton = TabScroll:FindFirstChild(Tab.Name)
-				if TabButton then
-					TabButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-				end
-			end
-			for _,Feature in pairs(Tab:GetChildren()) do
-				if Tab.Name == "Player" then
-					if Feature.Name == "CFrameWalk" then
-						SetupToggle(Feature.TextButton, "CFrameWalk")
-					elseif Feature.Name == "CFrameSpeed" then
-						SetupInput(Feature.TextBox, "CframeSpeed", "Number", "Speed Amount: ", 0)
-					elseif Feature.Name == "Fly" then
-						SetupToggle(Feature.TextButton, "Fly")
-					elseif Feature.Name == "FlySpeed" then
-						SetupInput(Feature.TextBox, "FlySpeed", "Number", "Fly Speed: ", 1)
-					end
-				end
-			end
-		end
-	end
-	
-	DragFrame.InputBegan:Connect(function(Input)
-		if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
-			Dragging = true
-			Offset = MainFrame.AbsolutePosition
-			OldMousePos = UserInputService:GetMouseLocation()
-	
-			Input.Changed:Connect(function()
-				if Input.UserInputState == Enum.UserInputState.End then
-					Dragging = false
-				end
-			end)
-		end
-	end)
-	
-	LocalPlayer.CharacterAdded:Connect(function()
-		Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-		Humanoid = Character:WaitForChild("Humanoid")
-	end)
-	
-	RunService.Heartbeat:Connect(function()
-		if Unloaded == true then
-			return
-		end
-		
-		task.spawn(function()
-			if Dragging then
-				local ViewportSize = CurrentCamera.ViewportSize
-				local MousePos = UserInputService:GetMouseLocation()
-				game.TweenService:Create(MainFrame, TweenInfo.new(0.05), {
-					Position = UDim2.fromOffset((Offset.X - (OldMousePos.X - MousePos.X)) + MainFrame.AbsoluteSize.X/2, (Offset.Y - (OldMousePos.Y - MousePos.Y)) + MainFrame.AbsoluteSize.Y/2)
-				}):Play()
-			end
-		end)
-		
-		task.spawn(function()
-			if Toggles.CFrameWalk == true and Toggles.Fly == false then
-				if Character:FindFirstChild("HumanoidRootPart") then
-					Character.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame + Humanoid.MoveDirection * (Inputs["CFrameSpeed"] * 0.05)
-				end
-			end
-			if Toggles.Fly == true then
-				if Character:FindFirstChild("HumanoidRootPart") then
-					Character.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame + (CurrentCamera.CFrame * CFrame.new((CFrame.new(CurrentCamera.CFrame.Position, CurrentCamera.CFrame.Position + Vector3.new(CurrentCamera.CFrame.LookVector.X, 0, CurrentCamera.CFrame.LookVector.Z)):VectorToObjectSpace(Humanoid.MoveDirection * (Inputs["FlySpeed"] * 0.025))))).Position - CurrentCamera.CFrame.Position
-					Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0.9, 0)
-					
-					local Enums = Enum.HumanoidStateType:GetEnumItems()
-					table.remove(Enums, table.find(Enums, Enum.HumanoidStateType.None))
-					for i,v in pairs(Enums) do
-						Humanoid:SetStateEnabled(v, true)
-					end
-				end
-			end
-		end)
-	end)
+    ScrollTab.Name = Name
+    ScrollTab.Parent = TabScroll
+    ScrollTab.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
+    ScrollTab.BorderColor3 = Color3.new(0, 0, 0)
+    ScrollTab.BorderSizePixel = 0
+    ScrollTab.Size = UDim2.new(0.25, 0, 1, 0)
+
+    ScrollTabButton.Parent = ScrollTab
+    ScrollTabButton.BackgroundColor3 = Color3.new(1, 1, 1)
+    ScrollTabButton.BackgroundTransparency = 1
+    ScrollTabButton.BorderColor3 = Color3.new(0, 0, 0)
+    ScrollTabButton.BorderSizePixel = 0
+    ScrollTabButton.Size = UDim2.new(1, 0, 1, 0)
+    ScrollTabButton.Font = Enum.Font.SourceSansSemibold
+    ScrollTabButton.Text = Name
+    ScrollTabButton.TextColor3 = Color3.new(1, 1, 1)
+    ScrollTabButton.TextScaled = true
+    ScrollTabButton.TextSize = 22
+    ScrollTabButton.TextWrapped = true
+
+    ScrollTextSize.Parent = ScrollTabButton
+    ScrollTextSize.MaxTextSize = 22
+
+    Tab.Name = Name
+    Tab.Parent = TabsHolder
+    Tab.Active = true
+    Tab.BackgroundColor3 = Color3.new(1, 1, 1)
+    Tab.BackgroundTransparency = 1
+    Tab.BorderColor3 = Color3.new(0, 0, 0)
+    Tab.BorderSizePixel = 0
+    Tab.ClipsDescendants = false
+    Tab.Size = UDim2.new(1, 0, 1, 0)
+    Tab.CanvasSize = UDim2.new(0, 0, 1, 0)
+    Tab.ScrollBarThickness = 0
+
+    TabListLayout.Parent = Tab
+    TabListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    TabListLayout.Padding = UDim.new(0, 3)
 end
-coroutine.wrap(YBKZTQ_fake_script)()
+
+function CreateToggle(TabName, Name, RealName)
+    if TabsHolder:FindFirstChild(TabName) then
+        local Toggle = Instance.new("Frame")
+        local ToggleButton = Instance.new("TextButton")
+        local ToggleTextSize = Instance.new("UITextSizeConstraint")
+
+        Toggle.Name = Name
+        Toggle.Parent = TabsHolder:FindFirstChild(TabName)
+        Toggle.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
+        Toggle.BorderColor3 = Color3.new(0, 0, 0)
+        Toggle.BorderSizePixel = 0
+        Toggle.Size = UDim2.new(1, 0, 0.125, 0)
+    
+        ToggleButton.Parent = Toggle
+        ToggleButton.BackgroundColor3 = Color3.new(1, 1, 1)
+        ToggleButton.BackgroundTransparency = 1
+        ToggleButton.BorderColor3 = Color3.new(0, 0, 0)
+        ToggleButton.BorderSizePixel = 0
+        ToggleButton.Size = UDim2.new(1, 0, 1, 0)
+        ToggleButton.Font = Enum.Font.SourceSansSemibold
+        ToggleButton.Text = RealName
+        ToggleButton.TextColor3 = Color3.new(1, 1, 1)
+        ToggleButton.TextScaled = true
+        ToggleButton.TextSize = 20
+        ToggleButton.TextWrapped = true
+    
+        ToggleTextSize.Parent = ToggleButton
+        ToggleTextSize.MaxTextSize = 20
+    end
+end
+
+function CreateInput(TabName, Name)
+    if TabsHolder:FindFirstChild(TabName) then
+        local Input = Instance.new("Frame")
+        local TextBox = Instance.new("TextBox")
+        local InputTextSize = Instance.new("UITextSizeConstraint")
+
+        Input.Name = Name
+        Input.Parent = TabsHolder:FindFirstChild(TabName)
+        Input.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
+        Input.BorderColor3 = Color3.new(0, 0, 0)
+        Input.BorderSizePixel = 0
+        Input.Size = UDim2.new(1, 0, 0.125, 0)
+        
+        TextBox.Parent = Input
+        TextBox.BackgroundColor3 = Color3.new(1, 1, 1)
+        TextBox.BackgroundTransparency = 1
+        TextBox.BorderColor3 = Color3.new(0, 0, 0)
+        TextBox.BorderSizePixel = 0
+        TextBox.Size = UDim2.new(1, 0, 1, 0)
+        TextBox.Font = Enum.Font.SourceSansSemibold
+        TextBox.PlaceholderColor3 = Color3.new(0.698039, 0.698039, 0.698039)
+        TextBox.PlaceholderText = ""
+        TextBox.Text = ""
+        TextBox.TextColor3 = Color3.new(1, 1, 1)
+        TextBox.TextScaled = true
+        TextBox.TextSize = 20
+        TextBox.TextWrapped = true
+        
+        InputTextSize.Parent = TextBox
+        InputTextSize.MaxTextSize = 20
+    end
+end
+
+CreateTab("Player")
+CreateInput("Player", "CFrameSpeed")
+CreateToggle("Player", "CFrameWalk", "CFrame Walk")
+CreateInput("Player", "FlySpeed")
+CreateToggle("Player", "Fly", "Fly")
+
+-- // [ Services ] \\ --
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+
+-- // [ Variables ] \\ --
+local CurrentCamera = game:GetService("Workspace").CurrentCamera
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local Humanoid = Character:WaitForChild("Humanoid")
+
+local MainGui = script.Parent
+local MainFrame = MainGui.MainFrame
+local DragFrame = MainFrame.DragFrame
+local TabScroll = MainFrame.TabScroll
+local TabsHolder = MainFrame.TabsHolder
+
+local Unloaded = false
+local CurrentTab = TabsHolder.Player
+local Sounds = {}
+local Toggles = {}
+local Inputs = {}
+
+local Dragging = false
+local OldMousePos = UserInputService:GetMouseLocation()
+local Offset = MainFrame.AbsolutePosition
+
+-- // [ Functions ] \\ --
+function CreateSound(Name, SoundId, Volume)
+    local Sound = Instance.new("Sound")
+    Sound.SoundId = "rbxassetid://".. tostring(SoundId)
+    Sound.Volume = Volume
+    Sound.Parent = game:GetService("SoundService")
+    Sounds[Name] = Sound
+end
+
+function PlaySound(Name)
+    Sounds[Name]:Play()
+end
+
+function AddStroke(Item, Color, Thickness)
+    local Stroke = Instance.new("UIStroke")
+    Stroke.Color = Color
+    Stroke.Thickness = Thickness
+    Stroke.Parent = Item
+end
+
+function SetupTab(Button, Tab)
+    AddStroke(Button.Parent, Color3.fromRGB(35, 35, 35), 3)
+    Button.MouseButton1Click:Connect(function()
+        PlaySound("Click")
+        CurrentTab = Tab
+        for _,v in pairs(TabsHolder:GetChildren()) do
+            if v:IsA("ScrollingFrame") then
+                if v ~= CurrentTab then
+                    v.Visible = false
+                else
+                    v.Visible = true
+                end
+            end
+        end
+        for _,v in pairs(TabScroll:GetChildren()) do
+            if v:IsA("Frame") then
+                if v ~= Button.Parent then
+                    TweenService:Create(Button.Parent, TweenInfo.new(0.5), {
+                        BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+                    }):Play()
+                else
+                    TweenService:Create(Button.Parent, TweenInfo.new(0.5), {
+                        BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+                    }):Play()
+                end
+            end
+        end
+    end)
+end
+
+function SetupButton(Button, Callback)
+    AddStroke(Button.Parent, Color3.fromRGB(35, 35, 35), 3)
+    Button.MouseButton1Click:Connect(function()
+        PlaySound("Click")
+        if Callback ~= nil then
+            Callback()
+        end
+        Button.Parent.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+        TweenService:Create(Button.Parent, TweenInfo.new(0.5), {
+            BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+        }):Play()
+    end)
+end
+
+function SetupToggle(Button, Name, StartToggle)
+    AddStroke(Button.Parent, Color3.fromRGB(35, 35, 35), 3)
+    Toggles[Name] = StartToggle or false
+    if Toggles[Name] == true then
+        Button.Parent.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+    elseif Toggles[Name] == false then
+        Button.Parent.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    end
+
+    Button.MouseButton1Click:Connect(function()
+        PlaySound("Click")
+        if Toggles[Name] == false then
+            Toggles[Name] = true
+            TweenService:Create(Button.Parent, TweenInfo.new(0.25), {
+                BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+            }):Play()
+        elseif Toggles[Name] == true then
+            Toggles[Name] = false
+            TweenService:Create(Button.Parent, TweenInfo.new(0.25), {
+                BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+            }):Play()
+        end
+    end)
+end
+
+function SetupInput(Input, Name, Type, Text, StartValue)
+    AddStroke(Input.Parent, Color3.fromRGB(35, 35, 35), 3)
+    if StartValue ~= nil then
+        Input.PlaceholderText = Text.. tostring(StartValue)
+        Inputs[Name] = StartValue
+    else
+        Input.PlaceholderText = Text.. "0"
+        Inputs[Name] = 0
+    end
+    
+    Input.FocusLost:Connect(function()
+        if Type == "Number" then
+            if tonumber(Input.Text) ~= nil then
+                Input.PlaceholderText = Text.. Input.Text
+                Inputs[Name] = tonumber(Input.Text)
+                Input.Text = ""
+            end
+        end
+    end)
+end
+
+-- // [ Main Code ] \\ --
+task.spawn(function()
+    CreateSound("Click", 6895079853, 1)
+    AddStroke(MainFrame, Color3.fromRGB(35, 35, 35), 3)
+    AddStroke(TabsHolder, Color3.fromRGB(35, 35, 35), 3)
+    AddStroke(TabScroll, Color3.fromRGB(35, 35, 35), 3)
+end)
+
+
+for _,TabButton in pairs(TabScroll:GetChildren()) do
+    if TabButton:IsA("Frame") then
+        if TabScroll:FindFirstChild(TabButton.Name) then
+            SetupTab(TabButton.TextButton, TabsHolder:FindFirstChild(TabButton.Name))
+        end
+    end
+end
+
+for _,Tab in pairs(TabsHolder:GetChildren()) do
+    if Tab:IsA("ScrollingFrame") then
+        if Tab == CurrentTab then
+            local TabButton = TabScroll:FindFirstChild(Tab.Name)
+            if TabButton then
+                TabButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+            end
+        end
+        for _,Feature in pairs(Tab:GetChildren()) do
+            if Tab.Name == "Player" then
+                if Feature.Name == "CFrameWalk" then
+                    SetupToggle(Feature.TextButton, "CFrameWalk")
+                elseif Feature.Name == "CFrameSpeed" then
+                    SetupInput(Feature.TextBox, "CframeSpeed", "Number", "Speed Amount: ", 0)
+                elseif Feature.Name == "Fly" then
+                    SetupToggle(Feature.TextButton, "Fly")
+                elseif Feature.Name == "FlySpeed" then
+                    SetupInput(Feature.TextBox, "FlySpeed", "Number", "Fly Speed: ", 1)
+                end
+            end
+        end
+    end
+end
+
+DragFrame.InputBegan:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        Dragging = true
+        Offset = MainFrame.AbsolutePosition
+        OldMousePos = UserInputService:GetMouseLocation()
+
+        Input.Changed:Connect(function()
+            if Input.UserInputState == Enum.UserInputState.End then
+                Dragging = false
+            end
+        end)
+    end
+end)
+
+LocalPlayer.CharacterAdded:Connect(function()
+    Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+    Humanoid = Character:WaitForChild("Humanoid")
+end)
+
+RunService.Heartbeat:Connect(function()
+    if Unloaded == true then
+        return
+    end
+    
+    task.spawn(function()
+        if Dragging then
+            local ViewportSize = CurrentCamera.ViewportSize
+            local MousePos = UserInputService:GetMouseLocation()
+            game.TweenService:Create(MainFrame, TweenInfo.new(0.05), {
+                Position = UDim2.fromOffset((Offset.X - (OldMousePos.X - MousePos.X)) + MainFrame.AbsoluteSize.X/2, (Offset.Y - (OldMousePos.Y - MousePos.Y)) + MainFrame.AbsoluteSize.Y/2)
+            }):Play()
+        end
+    end)
+    
+    task.spawn(function()
+        if Toggles.CFrameWalk == true and Toggles.Fly == false then
+            if Character:FindFirstChild("HumanoidRootPart") then
+                Character.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame + Humanoid.MoveDirection * (Inputs["CFrameSpeed"] * 0.05)
+            end
+        end
+        if Toggles.Fly == true then
+            if Character:FindFirstChild("HumanoidRootPart") then
+                Character.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame + (CurrentCamera.CFrame * CFrame.new((CFrame.new(CurrentCamera.CFrame.Position, CurrentCamera.CFrame.Position + Vector3.new(CurrentCamera.CFrame.LookVector.X, 0, CurrentCamera.CFrame.LookVector.Z)):VectorToObjectSpace(Humanoid.MoveDirection * (Inputs["FlySpeed"] * 0.025))))).Position - CurrentCamera.CFrame.Position
+                Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(0, 0.9, 0)
+                
+                local Enums = Enum.HumanoidStateType:GetEnumItems()
+                table.remove(Enums, table.find(Enums, Enum.HumanoidStateType.None))
+                for i,v in pairs(Enums) do
+                    Humanoid:SetStateEnabled(v, true)
+                end
+            end
+        end
+    end)
+end)
