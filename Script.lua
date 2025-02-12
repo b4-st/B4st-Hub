@@ -237,7 +237,7 @@ DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
 -- Scripts
 
-local function CTQBIIY_fake_script() -- MainGui.MainScript 
+local function WLIHVFY_fake_script() -- MainGui.MainScript 
 	local script = Instance.new('LocalScript', MainGui)
 
 	-- // [ Services ] \\ --
@@ -454,7 +454,7 @@ local function CTQBIIY_fake_script() -- MainGui.MainScript
 		end)
 		
 		task.spawn(function()
-			if Toggles.CFrameWalk == true then
+			if Toggles.CFrameWalk == true and Toggles.Fly == false then
 				if Character:FindFirstChild("HumanoidRootPart") then
 					Character.HumanoidRootPart.CFrame += Humanoid.MoveDirection * (Inputs["FlySpeed"] * 0.05)
 				end
@@ -474,4 +474,4 @@ local function CTQBIIY_fake_script() -- MainGui.MainScript
 		end)
 	end)
 end
-coroutine.wrap(CTQBIIY_fake_script)()
+coroutine.wrap(WLIHVFY_fake_script)()
