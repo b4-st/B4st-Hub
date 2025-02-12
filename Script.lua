@@ -31,6 +31,7 @@ local DragFrame = Instance.new("Frame")
 
 MainGui.Name = "MainGui"
 MainGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+MainGui.Enabled = false
 MainGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 MainGui.ResetOnSpawn = false
 
@@ -237,7 +238,8 @@ DragFrame.Size = UDim2.new(1, 0, 0.115000002, 0)
 
 -- Scripts
 
-local script = Instance.new('LocalScript', MainGui)
+local function CCOXTU_fake_script() -- MainGui.MainScript 
+	local script = Instance.new('LocalScript', MainGui)
 
 	-- // [ Services ] \\ --
 	local UserInputService = game:GetService("UserInputService")
@@ -455,7 +457,7 @@ local script = Instance.new('LocalScript', MainGui)
 		task.spawn(function()
 			if Toggles.CFrameWalk == true and Toggles.Fly == false then
 				if Character:FindFirstChild("HumanoidRootPart") then
-					Character.HumanoidRootPart.CFrame += Humanoid.MoveDirection * (Inputs["FlySpeed"] * 0.05)
+					Character.HumanoidRootPart.CFrame += Humanoid.MoveDirection * (Inputs["CFrameSpeed"] * 0.05)
 				end
 			end
 			if Toggles.Fly == true then
@@ -472,3 +474,5 @@ local script = Instance.new('LocalScript', MainGui)
 			end
 		end)
 	end)
+end
+coroutine.wrap(CCOXTU_fake_script)()
